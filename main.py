@@ -4,7 +4,7 @@ import asyncio
 
 BOT_TOKEN = "7569570451:AAFo3LPGklMyWIc5yT7AhNawJKB6pZqsB9Y" # bot new add
 
-bot = Bot(token=BOT_TOKEN)
+bot = Bot(token=BOT_TOKEN) #tt
 dp = Dispatcher()
 
 
