@@ -1,0 +1,41 @@
+name: Deploy Aiogram Bot
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Kodni yuklash
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Serverga ulanish va fayllarni yuklash
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            # Papkani yaratish yoki mavjud bo'lsa yangilash
+            mkdir -p ~/aiogram-bot
+            rsync -avz --delete . ~/aiogram-bot/
+
+            # Virtual muhitni yaratish yoki mavjud bo‘lsa faollashtirish
+            if [ ! -d "~/aiogram-bot/venv" ]; then
+              python3 -m venv ~/aiogram-bot/venv
+            fi
+            source ~/aiogram-bot/venv/bin/activate
+
+            # Python kutubxonalarini o'rnatish
+            pip install --upgrade pip
+            pip install -r ~/aiogram-bot/requirements.txt
+
+            # Botni qayta ishga tushirish
+            pkill -f "python.*bot.py" || true
+            nohup ~/aiogram-bot/venv/bin/python ~/aiogram-bot/bot.py > ~/aiogram-bot/bot.log 2>&1 &
