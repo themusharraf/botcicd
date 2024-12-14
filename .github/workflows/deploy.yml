@@ -22,12 +22,13 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-           
+            
             if [ ! -d "botcicd" ]; then
               git clone https://github.com/themusharraf/botcicd.git
             fi
+            git pull
             cd ~/botcicd
-       
+            
             
             if [ ! -d "venv" ]; then
               python3 -m venv venv
@@ -40,6 +41,7 @@ jobs:
             sudo systemctl daemon-reload
             sudo systemctl start aiogram-bot
             sudo systemctl enable aiogram-bot
+
 
 
 
