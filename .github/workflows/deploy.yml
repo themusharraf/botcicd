@@ -24,19 +24,19 @@ jobs:
           script: |
             # Papkani yaratish yoki mavjud bo'lsa yangilash
             mkdir -p ~/aiogram-bot
-            rsync -avz --delete . ~/aiogram-bot/
+            cd ~/aiogram-bot
+            rsync -avz --delete ~/aiogram-bot/* ./
 
             # Virtual muhitni yaratish yoki mavjud bo‘lsa faollashtirish
-            if [ ! -d "~/aiogram-bot/venv" ]; then
-              python3 -m venv ~/aiogram-bot/venv
+            if [ ! -d "venv" ]; then
+              python3 -m venv venv
             fi
-            source ~/aiogram-bot/venv/bin/activate
+            source venv/bin/activate
 
             # Python kutubxonalarini o'rnatish
             pip install --upgrade pip
-            pip install -r ~/aiogram-bot/requirements.txt
+            pip install -r requirements.txt
 
             # Botni qayta ishga tushirish
             pkill -f "python.*main.py" || true
-            nohup ~/aiogram-bot/venv/bin/python ~/aiogram-bot/main.py > ~/aiogram-bot/bot.log 2>&1 &
-
+            nohup venv/bin/python main.py > bot.log 2>&1 &
