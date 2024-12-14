@@ -25,7 +25,9 @@ jobs:
             # Papkani yaratish yoki mavjud bo'lsa yangilash
             mkdir -p ~/aiogram-bot
             cd ~/aiogram-bot
-            rsync -avz --delete ~/aiogram-bot/* ./
+            
+            # Fayllarni serverga ko'chirish
+            rsync -avz --delete $GITHUB_WORKSPACE/ ./
 
             # Virtual muhitni yaratish yoki mavjud bo‘lsa faollashtirish
             if [ ! -d "venv" ]; then
