@@ -10,7 +10,7 @@ dp = Dispatcher()
 
 @dp.message(CommandStart())
 async def echo(message: types.Message):
-    await message.answer(message.text)
+    await message.answer(f"hello {message.from_user.full_name}")
 
 
 async def main():
