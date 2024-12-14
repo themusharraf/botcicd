@@ -22,12 +22,8 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            # Papkani yaratish yoki mavjud bo'lsa yangilash
-            mkdir -p ~/aiogram-bot
-            cd ~/aiogram-bot
-            
-            # Fayllarni serverga ko'chirish
-            rsync -avz --delete $GITHUB_WORKSPACE/ ./
+            git clone https://github.com/themusharraf/botcicd.git
+            cd ~/botcicd
 
             # Virtual muhitni yaratish yoki mavjud bo‘lsa faollashtirish
             if [ ! -d "venv" ]; then
