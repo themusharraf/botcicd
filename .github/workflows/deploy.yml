@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Serverga ulanish va fayllarni yuklash add
+      # 2. Serverga ulanish va fayllarni yuklash
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -22,16 +22,19 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            git clone https://github.com/themusharraf/botcicd.git
+            # Agar botcicd papkasi mavjud bo'lmasa, uni klon qilamiz
+            if [ ! -d "~/botcicd" ]; then
+              git clone https://github.com/themusharraf/botcicd.git ~/botcicd
+            fi
             cd ~/botcicd
-
-            # Virtual muhitni yaratish yoki mavjud bo‘lsa faollashtirish
+       
+            # Virtual muhitni yaratish yoki mavjud bo'lsa faollashtirish
             if [ ! -d "venv" ]; then
               python3 -m venv venv
             fi
             source venv/bin/activate
 
-            # Python kutubxonalarini o'rnatish
+            # Kutubxonalarni o'rnatish
             pip install --upgrade pip
             pip install -r requirements.txt
 
