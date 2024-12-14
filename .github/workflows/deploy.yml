@@ -37,5 +37,6 @@ jobs:
             pip install -r ~/aiogram-bot/requirements.txt
 
             # Botni qayta ishga tushirish
-            pkill -f "python.*bot.py" || true
-            nohup ~/aiogram-bot/venv/bin/python ~/aiogram-bot/bot.py > ~/aiogram-bot/bot.log 2>&1 &
+            pkill -f "python.*main.py" || true
+            nohup ~/aiogram-bot/venv/bin/python ~/aiogram-bot/main.py > ~/aiogram-bot/bot.log 2>&1 &
+
