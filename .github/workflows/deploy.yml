@@ -23,7 +23,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             # Agar botcicd papkasi mavjud bo'lmasa, uni klon qilamiz
-            if [ ! -d "~/botcicd" ]; then
+            if [ ! -d "botcicd" ]; then
               git clone https://github.com/themusharraf/botcicd.git
             fi
             cd ~/botcicd
