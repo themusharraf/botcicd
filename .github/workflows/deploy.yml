@@ -26,7 +26,6 @@ jobs:
             if [ ! -d "botcicd" ]; then
               git clone https://github.com/themusharraf/botcicd.git
             fi
-            git pull
             cd ~/botcicd
             
             
