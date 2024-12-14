@@ -22,22 +22,24 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            # Agar botcicd papkasi mavjud bo'lmasa, uni klon qilamiz
+           
             if [ ! -d "botcicd" ]; then
               git clone https://github.com/themusharraf/botcicd.git
             fi
             cd ~/botcicd
        
-            # Virtual muhitni yaratish yoki mavjud bo'lsa faollashtirish
+            
             if [ ! -d "venv" ]; then
               python3 -m venv venv
             fi
             source venv/bin/activate
 
-            # Kutubxonalarni o'rnatish
             pip install --upgrade pip
             pip install -r requirements.txt
 
-            # Botni qayta ishga tushirish
-            pkill -f "python.*main.py" || true
-            nohup venv/bin/python main.py > bot.log 2>&1 &
+            sudo systemctl daemon-reload
+            sudo systemctl start aiogram-bot
+            sudo systemctl enable aiogram-bot
+
+
+
