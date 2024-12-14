@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Serverga ulanish va fayllarni yuklash
+      # 2. Serverga ulanish va fayllarni yuklash add
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.8
         with:
