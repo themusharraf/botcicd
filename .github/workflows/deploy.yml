@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Serverga ulanish va fayllarni yuklash
+      # 2. Python va systemctl konfiguratsiyasi uchun maxsus skript bajarish
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -22,25 +22,30 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            set -e  # Har qanday xatolikda skriptni to‘xtatadi
             
-            if [ ! -d "botcicd" ]; then
-              git clone https://github.com/themusharraf/botcicd.git
+            REPO_DIR="~/botcicd"
+            SERVICE_NAME="aiogram-bot"
+
+            # Git reponi klonlash yoki yangilash
+            if [ ! -d "$REPO_DIR" ]; then
+              git clone https://github.com/themusharraf/botcicd.git $REPO_DIR
+            else
+              cd $REPO_DIR
+              git pull origin main
             fi
-            cd ~/botcicd
-            
-            
+
+            cd $REPO_DIR
+
+            # Virtual muhitni yaratish va kutubxonalarni o‘rnatish
             if [ ! -d "venv" ]; then
               python3 -m venv venv
             fi
             source venv/bin/activate
-
             pip install --upgrade pip
             pip install -r requirements.txt
 
+            # Systemctl xizmatini boshqarish
+            sudo systemctl restart $SERVICE_NAME
+            sudo systemctl enable $SERVICE_NAME
             sudo systemctl daemon-reload
-            sudo systemctl start aiogram-bot
-            sudo systemctl enable aiogram-bot
-
-
-
-
